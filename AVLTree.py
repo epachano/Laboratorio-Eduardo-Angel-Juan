@@ -231,6 +231,11 @@ class AVLTree:
     
     def getHeight(self, name):
         results = self.search(name=name)
+        if results:
+            node = results[0]  # Assuming search returns a list of nodes
+            return node.height  # Return the height of the node
+        else:
+            return "Node not found"
     
     # Imprimir recorrido por orden de niveles
     def printLevelOrder(self):
@@ -268,86 +273,9 @@ class AVLTree:
             tree.edge(f'{root.name}', f'{root.right.name}', '')
             
         return tree, counter
-    
-    def is_rec_eulerian(self, root):
-        if root is None:
-            return True
-        balance = self.balance_factor(root)
-        return abs(balance) <= 1 and self.is_rec_eulerian(root.left) and self.is_rec_eulerian(root.right)
-    
-    def is_rec_complete(self, root, index, node_count):
-        if root is None:
-            return True
-
-        if index >= node_count:
-            return False
-
-        return (self.is_rec_complete(root.left, 2 * index + 1, node_count) and
-                self.is_rec_complete(root.right, 2 * index + 2, node_count))
 
     def count_nodes(self, root):
         if root is None:
             return 0
         return 1 + self.count_nodes(root.left) + self.count_nodes(root.right)
-
-    def is_rec_acyclic(self, node, visited):
-        if node is None:
-            return True
-
-        if node in visited:
-            return False
-
-        visited.add(node)
-        return self.is_rec_acyclic(node.left, visited) and self.is_rec_acyclic(node.right, visited)
     
-    def is_rec_r_regular(self, root, r, current_degree):
-        if root is None:
-            return True
-
-        if current_degree == -1:
-            current_degree = r if root.left else 0
-
-        if current_degree != r:
-            return False
-
-        return (self.is_rec_r_regular(root.left, r, r if root.right else 0) and
-                self.is_rec_r_regular(root.right, r, r if root.left else 0))
-    
-    def find_rec_path(self, root, name, path):
-        if root is None:
-            return False
-
-        path.append(root.name)
-
-        if root.name == name:
-            return True
-
-        if (root.left and self.find_rec_path(root.left, name, path)) or \
-           (root.right and self.find_rec_path(root.right, name, path)):
-            return True
-
-        path.pop()
-        return False
-    
-    
-    def is_complete(self):
-        node_count = self.count_nodes(self.root)
-        return self.is_rec_complete(self.root, 0, node_count)
-    
-    def is_acyclic(self):
-        visited = set()
-        return self.is_rec_acyclic(self.root, visited)
-    
-    def is_eulerian(self):
-        return self.is_rec_eulerian(self.root)
-    
-    def is_r_regular(self, r):
-        return self.is_rec_r_regular(self.root, r, -1)
-    
-    def path (self, start_name, end_name):
-        path = []
-        start = self.search(name=start_name)[0]
-        end = self.search(name=end_name)[0]
-        if self.find_rec_path(start, end, path):
-            return path
-        return None
