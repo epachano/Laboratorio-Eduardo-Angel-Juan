@@ -231,6 +231,11 @@ class AVLTree:
     
     def getHeight(self, name):
         results = self.search(name=name)
+        if results:
+            node = results[0]  # Assuming search returns a list of nodes
+            return node.height  # Return the height of the node
+        else:
+            return "Node not found"
     
     # Imprimir recorrido por orden de niveles
     def printLevelOrder(self):
