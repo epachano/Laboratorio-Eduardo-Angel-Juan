@@ -79,12 +79,3 @@ while (option != 6):
                 print(abuelo.right.name)
             else:
                 print(abuelo.left.name)
-                
-print(f"El grafo es Completo : {tree.is_complete()}")
-print(f"El grafo es Acíclico : {tree.is_acyclic()}")
-print(f"El grafo es Euleriano : {tree.is_eulerian()}")
-r = int(input("Ingrese el número r de vértices:\n"))
-print(f"El grafo es {r} regular : {tree.is_r_regular(r)}")
-start_name = input("Ingrese el nodo inicial:\n")
-end_name = input("Ingrese el nodo final:\n")
-print(f"El camino de {start_name} a {end_name} es : \n{tree.path(start_name, end_name)}")
